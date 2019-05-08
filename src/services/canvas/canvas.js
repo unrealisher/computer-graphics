@@ -1,21 +1,19 @@
 import * as dat from "dat.gui";
+
 import task1 from "./tasks/task1";
+import task2 from "./tasks/task2";
 
-const renderCanvas = canvasRef => {
+const renderCanvas = (canvasRef, task) => {
   const gui = new dat.GUI();
-  const state = {
-    task: 1
-  };
-  gui
-    .add(state, "task")
-    .min(1)
-    .max(6)
-    .step(1);
-
-  switch (state.task) {
+  switch (task) {
     case 1:
       task1(canvasRef, gui);
-    // eslint-disable-next-line no-fallthrough
+      break;
+
+    case 2:
+      task2(canvasRef, gui);
+      break;
+
     default:
       break;
   }

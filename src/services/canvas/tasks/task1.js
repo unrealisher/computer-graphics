@@ -65,29 +65,31 @@ const task1 = (canvasRef, gui) => {
   const height = window.innerHeight;
 
   //Точка
-  gui
+  const folder = gui.addFolder("task1");
+  folder
     .add(state.dot, "dotPositionX")
     .min(-width / 2 + 200)
-    .max(width / 2 - 200);
-  gui
+    .max(width / 2 - 200)
+    .listen();
+  folder
     .add(state.dot, "dotPositionY")
     .min(-height / 2 + 100)
     .max(height / 2 - 100);
 
   //Окружность
-  gui
+  folder
     .add(state.sphere, "radius")
     .min(30)
     .max(150);
-  gui
+  folder
     .add(state.sphere, "spherePositionX")
     .min(-width / 2 + 250 + state.sphere.radius)
     .max(width / 2 - 250 - state.sphere.radius);
-  gui
+  folder
     .add(state.sphere, "spherePositionY")
     .min(-height / 2 + 160 + state.sphere.radius)
     .max(height / 2 - 160 - state.sphere.radius);
-
+  folder.open();
   const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current });
   renderer.setClearColor(0x000000);
   renderer.setPixelRatio(8);

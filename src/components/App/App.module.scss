@@ -1,5 +1,21 @@
-.canvas {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+.button {
+  cursor: pointer;
+  position: absolute;
+  padding: 10px;
+  font-size: 20px;
+  color: white;
+  background-color: transparent;
+  top: 95%;
+
+  &:hover {
+    color: rosybrown;
+  }
+}
+
+.before {
+  right: 90%;
+}
+
+.next {
+  left: 90%;
 }
