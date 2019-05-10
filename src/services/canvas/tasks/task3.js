@@ -7,17 +7,41 @@ const point = () => {
   return new THREE.Mesh(geometry, material);
 };
 
-const line = (pos1X, pos1Y, pos1Z, pos2X, pos2Y, pos2Z) => {
+export const line = ( pos1X, pos1Y, pos1Z, pos2X, pos2Y, pos2Z, state) => {
+  let color;
+  if (state === undefined) {
+    color = 0xffffff;
+  } else {
+    const width = state.width / 2;
+    const height = state.height / 2;
+    const depth = state.depth / 2;
+    if (pos1X >= -width &&
+      pos1X <= width && 
+      pos1Y >= -height && 
+      pos1Y <= height &&
+      pos1Z >= -depth &&
+      pos1Z <= depth ||
+      pos2X >= -width &&
+      pos2X <= width && 
+      pos2Y >= -height && 
+      pos2Y <= height &&
+      pos2Z >= -depth &&
+      pos2Z <= depth) {
+        color = 0x00ff00;
+      } else {
+        color = 0xffffff;
+      }
+  }
   const geometry = new THREE.Geometry();
   geometry.vertices.push(
     new THREE.Vector3(pos1X, pos1Y, pos1Z),
     new THREE.Vector3(pos2X, pos2Y, pos2Z)
   );
-  const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const material = new THREE.MeshBasicMaterial({ color: color });
   return new THREE.Line(geometry, material);
 };
 
-const axis = a => {
+export const axis = a => {
   let geometry;
   let material;
   switch (a) {

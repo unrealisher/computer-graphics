@@ -17,6 +17,7 @@ const App = () => {
       {task === 1 && <Canvas task={1} />}
       {task === 2 && <Canvas task={2} />}
       {task === 3 && <Canvas task={3} />}
+      {task === 4 && <Canvas task={4} />}
       {task !== 1 && (
         <button
           className={cn(styles.button, styles.before)}
@@ -27,7 +28,7 @@ const App = () => {
           Назад
         </button>
       )}
-      {task !== 3 && (
+      {task !== 4 && (
         <button
           className={cn(styles.button, styles.next)}
           onClick={() => {
