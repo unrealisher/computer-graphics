@@ -10,11 +10,17 @@ import { axis, line } from './task3';
 
 const task4 = (canvasRef, gui) => {
   const state = {
+      posX: 0,
+      posY: 0,
+      posZ: 0,
       width: 400,
       height: 400,
       depth: 400
   };
 
+  gui.add(state, 'posX').min(-200).max(200);
+  gui.add(state, 'posY').min(-200).max(200);
+  gui.add(state, 'posZ').min(-200).max(200);
   gui.add(state, 'width').min(100).max(500);
   gui.add(state, 'height').min(100).max(500);
   gui.add(state, 'depth').min(100).max(500);
@@ -36,10 +42,7 @@ const task4 = (canvasRef, gui) => {
   const light = new THREE.AmbientLight(0xffffff);
   scene.add(light);
 
-  scene.add(axis("x"));
-  scene.add(axis("y"));
-  scene.add(axis("z"));
-
+  let arr = []
   for (let i = 0; i < 10; i++) {
     const pos1X = Math.floor(Math.random() * 1000) - 500;
     const pos1Y = Math.floor(Math.random() * 1000) - 500;
@@ -47,14 +50,35 @@ const task4 = (canvasRef, gui) => {
     const pos2X = Math.floor(Math.random() * pos1X);
     const pos2Y = Math.floor(Math.random() * pos1Y);
     const pos2Z = Math.floor(Math.random() * pos1Z);
+    arr.push({
+      pos1X,
+      pos1Y,
+      pos1Z,
+      pos2X,
+      pos2Y,
+      pos2Z
+    })
     scene.add(line(pos1X, pos1Y, pos1Z, pos2X, pos2Y, pos2Z, state))
   }
 
   let cubeMesh;
 
   const loop = () => {
-    if (cubeMesh !== undefined) scene.remove(cubeMesh);
+    while (scene.children.length > 0) {
+      scene.remove(scene.children[0]);
+    }
+    for (let i = 0; i<arr.length; i++) {
+      scene.add(line(arr[i].pos1X, arr[i].pos1Y, arr[i].pos1Z, arr[i].pos2X, arr[i].pos2Y, arr[i].pos2Z, state));
+    }
+
+    scene.add(axis("x"));
+    scene.add(axis("y"));
+    scene.add(axis("z"));
+
     cubeMesh = cube(state.width, state.height, state.depth);
+    cubeMesh.position.x = state.posX;
+    cubeMesh.position.y = state.posY;
+    cubeMesh.position.z = state.posZ;
     scene.add(cubeMesh);
     renderer.render(scene, camera);
     requestAnimationFrame(() => loop());

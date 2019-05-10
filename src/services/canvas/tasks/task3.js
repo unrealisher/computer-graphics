@@ -12,21 +12,21 @@ export const line = ( pos1X, pos1Y, pos1Z, pos2X, pos2Y, pos2Z, state) => {
   if (state === undefined) {
     color = 0xffffff;
   } else {
-    const width = state.width / 2;
-    const height = state.height / 2;
-    const depth = state.depth / 2;
-    if (pos1X >= -width &&
-      pos1X <= width && 
-      pos1Y >= -height && 
-      pos1Y <= height &&
-      pos1Z >= -depth &&
-      pos1Z <= depth ||
-      pos2X >= -width &&
-      pos2X <= width && 
-      pos2Y >= -height && 
-      pos2Y <= height &&
-      pos2Z >= -depth &&
-      pos2Z <= depth) {
+    const X = state.width / 2;
+    const Y = state.height / 2;
+    const Z = state.depth / 2;
+    if (pos1X >= state.posX - X &&
+      pos1X <= state.posX + X && 
+      pos1Y >= state.posY - Y && 
+      pos1Y <= state.posY + Y &&
+      pos1Z >= state.posZ - Z &&
+      pos1Z <= state.posZ + Z ||
+      pos2X >= state.posX - X &&
+      pos2X <= state.posX + X && 
+      pos2Y >= state.posY - Y && 
+      pos2Y <= state.posY + Y &&
+      pos2Z >= state.posZ - Z &&
+      pos2Z <= state.posZ + Z) {
         color = 0x00ff00;
       } else {
         color = 0xffffff;
