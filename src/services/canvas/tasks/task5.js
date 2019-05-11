@@ -15,26 +15,29 @@ const cube = () => {
 
  const ground = () => {
      const geometry = new THREE.PlaneBufferGeometry(2000, 2000, 32);
-     const material = new THREE.MeshPhongMaterial({ color: 0x666666, shininess: 50 });
+     const material = new THREE.MeshPhongMaterial({ color: 0x666666, shininess: -100 });
      return new THREE.Mesh(geometry, material);
  }
 
 const task4 = (canvasRef, gui) => {
   const state = {
-      x: 50,
-      y: 100,
-      z: 50
+      x: 0,
+      y: 300,
+      z: 0
   };
 
   gui.add(state, 'x').min(-300).max(300);
-  gui.add(state, 'y').min(-300).max(300);
+  gui.add(state, 'y').min(20).max(300);
   gui.add(state, 'z').min(-300).max(300);
 
   const width = window.innerWidth;
   const height = window.innerHeight;
 
   const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current });
-  renderer.setClearColor(0x000000);
+  renderer.shadowMapEnabled = true;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
+  renderer.setClearAlpha(0x000000, 1.0);
   renderer.setPixelRatio(8);
 
   const scene = new THREE.Scene();
@@ -44,17 +47,27 @@ const task4 = (canvasRef, gui) => {
   const controls = new OrbitControls(camera);
   controls.update();
 
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+  const directionalLight = new THREE.SpotLight(0xffffff, 1, 2000);
+  directionalLight.castShadow = true;
+  directionalLight.shadow.mapSize.width = 512;  
+  directionalLight.shadow.mapSize.height = 512;
+  directionalLight.shadow.camera.near = 0.5;
+  directionalLight.shadow.camera.far = 500  
   scene.add(directionalLight);
 
   const cubeMesh = cube();
+  cubeMesh.castShadow = true;
+  cubeMesh.receiveShadow = false;
   const sphereMesh = sphere();
+  sphereMesh.castShadow = true;
+  sphereMesh.receiveShadow = false;
   const groundMesh = ground();
+  groundMesh.receiveShadow = true;
 
   cubeMesh.position.z = -200;
   sphereMesh.position.z = 200;
   groundMesh.rotation.x = -0.5*Math.PI;
-  groundMesh.position.y = -300;
+  groundMesh.position.y = -200;
 
   scene.add(cubeMesh);
   scene.add(sphereMesh);
