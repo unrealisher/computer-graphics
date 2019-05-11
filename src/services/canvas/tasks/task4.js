@@ -2,8 +2,8 @@ import * as THREE from "three";
 import OrbitControls from "three-orbitcontrols";
 import { axis, line } from './task3';
 
- const cube = ( w, h, d ) => {
-    var geometry = new THREE.BoxBufferGeometry( w, h, d );
+ export const cube = ( w, h, d ) => {
+    const geometry = new THREE.BoxBufferGeometry( w, h, d );
     const material = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.2 });
     return new THREE.Mesh(geometry, material);
  }
